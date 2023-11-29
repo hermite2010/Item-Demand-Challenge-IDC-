@@ -146,12 +146,12 @@ cv_results_2 <- modeltime_calibrate(arima_wf_2,
                                     new_data = testing(cv_split_2))
 
 ## Visualize CV results
-cv_results_1 %>%
+image1 <- cv_results_1 %>%
   modeltime_forecast(new_data = testing(cv_split_1),
                    actual_data = subtrain_1) %>%
   plot_modeltime_forecast(.interactive=TRUE)
 
-cv_results_2 %>%
+image2 <- cv_results_2 %>%
   modeltime_forecast(new_data = testing(cv_split_2),
                      actual_data = subtrain_2) %>%
   plot_modeltime_forecast(.interactive=TRUE)
@@ -186,15 +186,15 @@ arima_preds_2 <- arima_fullfit_2 %>%
   full_join(., y=subtrain2_test, by="date") %>%
   select(id, sales)
 
-arima_fullfit_1 %>%
+image3 <- arima_fullfit_1 %>%
   modeltime_forecast(new_data = subtrain1_test, actual_data = subtrain_1) %>%
   plot_modeltime_forecast(.interactive=FALSE)
 
-arima_fullfit_2 %>%
+image4 <- arima_fullfit_2 %>%
   modeltime_forecast(new_data = subtrain2_test, actual_data = subtrain_2) %>%
   plot_modeltime_forecast(.interactive=FALSE)
 
-
+plotly::subplot(image1,image2,image3,image4, nrows = 2)
 
 # Double For Loop ---------------------------------------------------------
 
